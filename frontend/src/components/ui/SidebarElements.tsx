@@ -2,12 +2,16 @@ import {type ReactElement} from "react";
 
 interface SidebarElementsProps {
     text : string;
-    logo : ReactElement
+    logo : ReactElement,
+    value : string,
+    setType : (type : string) => void
 }
 
 const SidebarElements = (props : SidebarElementsProps) => {
   return (
-    <div className="w-full flex hover:bg-slate-200 px-3 py-1 rounded-lg  ">
+    <div className="w-full flex items-center hover:bg-slate-200 dark:hover:bg-slate-700 pl-4 px-1 py-1 rounded-lg  "
+    onClick={() => props.setType(props.value)}
+    >
         <div className="pr-5">{props.logo}</div>
         <div className="text-lg ">{props.text}</div>
     </div>

@@ -1,18 +1,19 @@
 import { type ReactElement } from 'react'
 
 interface ButtonProps {
-  variant : "primary" | "secondary" | "destructive";
-  size : "xs" | "sm" | "md" | "lg" | "fit"
-  text : string;
-  startIcon? : ReactElement;
-  onClick : ()=>void
-
+  variant: "primary" | "secondary" | "destructive";
+  size: "xs" | "sm" | "md" | "lg" | "fit";
+  text: string;
+  startIcon?: ReactElement;
+  onClick: any;
+  disabled? : boolean;
 }
 
+
 const variantStyles = {
-  "primary" : "bg-purple-600 hover:bg-purple-700 text-white",
-  "secondary" : "bg-purple-200 hover:bg-purple-300 text-purple-500",
-  "destructive" : "bg-red-600 hover:bg-red-700 text-black"
+  "primary" : "bg-purple-600 hover:bg-purple-700 text-white ",
+  "secondary" : "bg-purple-200 hover:bg-purple-300 text-purple-500 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-slate-100",
+  "destructive" : "bg-red-600 hover:bg-red-700 text-black "
 }
 
 const sizeStyles = {
@@ -27,12 +28,12 @@ const defaultStyles = "py-1 px-4 rounded-lg text-center flex items-center gap-2 
 
 const Button = (props : ButtonProps) => {
   return (
-    <div className= {`${variantStyles[props.variant]} ${sizeStyles[props.size]} ${defaultStyles}`}
+    <button className= {`${variantStyles[props.variant]} ${sizeStyles[props.size]} ${defaultStyles}`}
     onClick={props.onClick}
     >
       {props.startIcon}
       {props.text}
-    </div>
+    </button>
   )
 }
 

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import { contentValidation, signValidation, type ContentType, type UserType } from "./middleware/validation.js";
 import UserModel from "./models/user.js";
 import ContentModel from "./models/content.js";
@@ -7,7 +8,7 @@ import { config } from "./config.js";
 import { auth } from "./middleware/auth.js";
 import TagModel from "./models/tag.js";
 import LinkModel from "./models/link.js";
-import { generateRandomString } from "./util.js";
+import { generateRandomString, getYouTubeVideoId, extractTweetId } from "./util.js";
 
 mongoose.connect(config.DB_URL).then(() => {
     console.log("Connect to MongoDB");
@@ -15,6 +16,7 @@ mongoose.connect(config.DB_URL).then(() => {
     console.log("Error connecting to MongoDB");
 });
 const app = express();
+app.use(cors());
 app.use(express.json());
 export enum statusCodes {
     Success = 200,
@@ -79,7 +81,7 @@ app.post("/content", auth, async (req, res) => {
         const userId = req.userId;
         const { link, title, type, tags }: ContentType = parseResult.data;
         let contentResponse , tagIds;
-        if (!tags || tags.length===0) {
+        if (!tags || tags.length===0 || tags[0] === "") {
             contentResponse = await ContentModel.create({ userId, link, title, type });
         } else {
             tagIds = await Promise.all(tags.map(async tag => {
@@ -89,7 +91,19 @@ app.post("/content", auth, async (req, res) => {
                 }
                 return findTag._id.toString();
             }));
-            contentResponse = await ContentModel.create({ userId, link, title, type, tags: tagIds });
+            let newLink = link;
+            if(type === "Video"){
+                const resp = getYouTubeVideoId(link)
+                if(resp === null){
+                    return res.status(statusCodes.NotFound).json({ msg: "Content not created" });
+                }else{
+                    newLink = resp;
+                }
+            }
+            else if(type === "Tweet"){
+                newLink = extractTweetId(link)
+            }
+            contentResponse = await ContentModel.create({ userId, link:newLink, title, type, tags: tagIds });
         }
         if (!contentResponse) {
             return res.status(statusCodes.NotFound).json({ msg: "Content not created" });
@@ -99,13 +113,26 @@ app.post("/content", auth, async (req, res) => {
         console.log(error);
         return res.status(statusCodes.ServerError).json({ msg: "Internal Server Error" });
     }
-})
+});
 
 app.get("/content", auth, async (req, res) => {
     try {
         const userId = req.userId;
-        const content = await ContentModel.find({ userId }).populate("userId", "username -_id");
-        return res.status(statusCodes.Success).json({ msg: "Content fetched Successfully", content: content })
+        const contentRes = await ContentModel.find({ userId }).populate("userId tags");
+        const content = contentRes.map((x)=> ({
+            title : x.title,
+            link : x.link,
+            type : x.type,
+            id : x._id,
+            tags: x.tags?.map((t) => (typeof t === "object" && "tag" in t ? t.tag : t.toString())),
+            //@ts-ignore
+            timeStamp: new Date(x.createdAt).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              }),
+        }));
+        return res.status(statusCodes.Success).json({ msg: "Content fetched Successfully", content })
     } catch (error) {
         console.log(error);
         return res.status(statusCodes.ServerError).json({ msg: "Internal Server Error" });
@@ -156,13 +183,29 @@ app.post("/brain/share", auth, async (req, res) => {
 app.get("/brain/:shareLink", async (req, res) => {
     try {
         const link = req.params.shareLink;
-        const linkRes = await LinkModel.findOne({ link });
+        const linkRes = await LinkModel.findOne({ link }).populate("userId").select("username");
         if (!linkRes) {
             return res.status(statusCodes.NotFound).json({ msg: "Wrong Link" })
         }
-        const userId = linkRes.userId;
-        const content = await ContentModel.find({ userId }).populate("userId", "username");
-        res.status(statusCodes.Success).json({ msg: "Content fetched successfully", content })
+        
+        const userId = linkRes.userId._id;
+        const contentRes = await ContentModel.find({ userId }).populate("userId tags", "username tag");
+        const content = contentRes.map((x)=> ({
+            title : x.title,
+            link : x.link,
+            type : x.type,
+            id : x._id,
+            tags: x.tags?.map((t) => (typeof t === "object" && "tag" in t ? t.tag : t.toString())),
+            //@ts-ignore
+            timeStamp: new Date(x.createdAt).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              }),
+        }))
+        //@ts-ignore
+        const username = linkRes.userId.username;
+        res.status(statusCodes.Success).json({ msg: "Content fetched successfully",username ,content })
     } catch (error) {
         console.log(error);
         return res.status(statusCodes.ServerError).json({ msg: "Internal Server Error" });

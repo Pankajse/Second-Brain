@@ -26,3 +26,21 @@ export function getYouTubeVideoId(url : string) {
     return null; // invalid URL format
   }
 }
+
+export function extractTweetId(url: string): any {
+  try {
+    const parsedUrl = new URL(url);
+    const segments = parsedUrl.pathname.split("/");
+
+    // Find "status" index and take the next segment
+    const statusIndex = segments.indexOf("status");
+    if (statusIndex !== -1 && segments[statusIndex + 1]) {
+      return segments[statusIndex + 1]; // tweet id
+    }
+
+    throw new Error("Tweet ID not found in URL");
+  } catch (err) {
+    throw new Error("Invalid URL");
+  }
+}
+

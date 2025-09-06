@@ -1,31 +1,19 @@
-import { useState } from "react"
-import PlusIcon from "./components/icons/PlusIcon"
-import ShareIcon from "./components/icons/ShareIcon"
-import Button from "./components/ui/Button"
-import ContentCard from "./components/ui/ContentCard"
-import CreateContentModel from "./components/ui/CreateContentModel"
-import Sidebar from "./components/ui/Sidebar"
+import { Route, Routes } from 'react-router-dom';
+import DashBoard from './pages/Dashboard';
+import Signin from './pages/SignIn';
+import Signup from './pages/SignUp';
+import SharedBrain from './pages/SharedBrain';
 
-function App() {
-  const [createContentOpen, setCreateContentOpen] = useState(false);
-
+const App = () => {
   return (
-    <>
-      <div className="flex ">
-        <Sidebar />
-        <div className="w-full">
-          <CreateContentModel isOpen={createContentOpen} setIsOpen={setCreateContentOpen} />
-          <div className="flex justify-between w-full items-center p-5">
-            <h4 className="text-3xl font-bold">All Notes</h4>
-            <div className="flex gap-5 justify-end p-4">
-              <Button variant="primary" size="fit" text="Add Content" startIcon={<PlusIcon />} onClick={() => { setCreateContentOpen(true) }} />
-              <Button variant="secondary" size="fit" text="Share Brain" startIcon={<ShareIcon />} onClick={() => { console.log("Button Clicked") }} />
-            </div>
-          </div>
-          <ContentCard />
-        </div>
-      </div>
-    </>
+    <div className='dark:bg-slate-900 h-screen'>
+    <Routes>
+      <Route path='/' element={<DashBoard/>} />
+      <Route path='/signin' element={<Signin/>} />
+      <Route path='/signup' element={<Signup/>} />
+      <Route path='/shared/:shareId' element={<SharedBrain/>} />
+    </Routes>
+    </div>
   )
 }
 
