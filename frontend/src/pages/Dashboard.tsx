@@ -85,7 +85,7 @@ function DashBoard() {
               {shareBrainOpen && <div className=" p-2 absolute rounded-lg top-20 xs:top-15 text-green-500 font-medium bg-gray-200 text-sm  dark:bg-slate-700 dark:text-slate-200">{token ? "Link Copied" : "Login First"}</div>}
               <button
                 onClick={toggleDarkMode}
-                className="p-2 rounded-full xs:bg-purple-600 text-white shadow-md"
+                className="p-2 rounded-full sm:bg-purple-600 text-black sm:text-white dark:text-white sm:shadow-md"
               >
                 {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
               </button>
