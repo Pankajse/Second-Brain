@@ -6,7 +6,7 @@ export const signValidation = z.object({
 });
 
 export const contentValidation = z.object({
-    link : z.string().min(3,"Minimum Length of Link should be 3"),
+    link : z.url("Link must be a valid URL").min(3,"Minimum Length of Link should be 3"),
     type : z.enum(['Image', 'Video','Link','Tweet']),
     title : z.string().min(3,"Minimum Length of Username should be 3"),
     tags : z.array(z.string()).optional(),

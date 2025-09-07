@@ -23,6 +23,7 @@ const ContentCard = ({
   timeStamp,
   isDarkMode,
 }: ContentType) => {
+  console.log(link);
   const deleteHandler = async (id: string) => {
     const response = await axios.delete(
       `${import.meta.env.VITE_BASE_URL}/content`,

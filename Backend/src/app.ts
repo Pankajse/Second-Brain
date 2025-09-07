@@ -82,16 +82,7 @@ app.post("/content", auth, async (req, res) => {
         const { link, title, type, tags }: ContentType = parseResult.data;
         let contentResponse , tagIds;
         if (!tags || tags.length===0 || tags[0] === "") {
-            contentResponse = await ContentModel.create({ userId, link, title, type });
-        } else {
-            tagIds = await Promise.all(tags.map(async tag => {
-                let findTag = await TagModel.findOne({ tag });
-                if (!findTag) {
-                    findTag = await TagModel.create({ tag });
-                }
-                return findTag._id.toString();
-            }));
-            let newLink = link;
+            let newLink : string | null = link;
             if(type === "Video"){
                 const resp = getYouTubeVideoId(link)
                 if(resp === null){
@@ -101,8 +92,35 @@ app.post("/content", auth, async (req, res) => {
                 }
             }
             else if(type === "Tweet"){
-                newLink = extractTweetId(link)
+                newLink = extractTweetId(link);
+                if(newLink == null){
+                    return res.status(statusCodes.NotFound).json({ msg: "Invalid Link" });
+                }
             }
+            contentResponse = await ContentModel.create({ userId, link:newLink, title, type });
+        } else {
+            tagIds = await Promise.all(tags.map(async tag => {
+                let findTag = await TagModel.findOne({ tag });
+                if (!findTag) {
+                    findTag = await TagModel.create({ tag });
+                }
+                return findTag._id.toString();
+            }));
+            let newLink : string | null = link;
+            if(type === "Video"){
+                const resp = getYouTubeVideoId(link)
+                if(resp === null){
+                    return res.status(statusCodes.NotFound).json({ msg: "Content not created" });
+                }else{
+                    newLink = resp;
+                }
+            }
+            else if(type === "Tweet"){
+                newLink = extractTweetId(link);
+            }
+            if(newLink == null){
+                    return res.status(statusCodes.NotFound).json({ msg: "Invalid Link" });
+                }
             contentResponse = await ContentModel.create({ userId, link:newLink, title, type, tags: tagIds });
         }
         if (!contentResponse) {

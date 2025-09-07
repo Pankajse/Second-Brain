@@ -2,7 +2,7 @@ import { type ReactElement } from 'react'
 
 interface ButtonProps {
   variant: "primary" | "secondary" | "destructive";
-  size: "xs" | "sm" | "md" | "lg" | "fit";
+  size: "xs" | "sm" | "md" | "lg" | "fit" | "full";
   text: string;
   startIcon?: ReactElement;
   onClick: any;
@@ -21,7 +21,8 @@ const sizeStyles = {
   "sm" : "w-sm",
   "md" : 'w-md',
   "lg" : "w-lg",
-  "fit" : "w-fit"
+  "fit" : "w-fit",
+  "full" : "w-[90%]"
 }
 
 const defaultStyles = "py-1 px-4 rounded-lg text-center flex items-center gap-2 justify-center hover:cursor-pointer "

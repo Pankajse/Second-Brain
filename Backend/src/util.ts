@@ -7,40 +7,58 @@ export function generateRandomString(length: number) {
   return result;
 }
 
-export function getYouTubeVideoId(url : string) {
+export function getYouTubeVideoId(url: string): string | null {
   try {
     const parsedUrl = new URL(url);
-    
+
     // Case 1: Short link (youtu.be/<id>)
     if (parsedUrl.hostname === "youtu.be") {
       return parsedUrl.pathname.slice(1); // remove leading "/"
     }
 
-    // Case 2: Standard link (youtube.com/watch?v=<id>)
+    // Case 2: Standard watch link (youtube.com/watch?v=<id>)
     if (parsedUrl.hostname.includes("youtube.com")) {
-      return parsedUrl.searchParams.get("v");
+      // If it's a standard watch link
+      const vParam = parsedUrl.searchParams.get("v");
+      if (vParam) return vParam;
+
+      // Case 3: Embed link (youtube.com/embed/<id>)
+      if (parsedUrl.pathname.startsWith("/embed/")) {
+        return parsedUrl.pathname.split("/")[2];
+      }
+
+      // Case 4: Shorts link (youtube.com/shorts/<id>)
+      if (parsedUrl.pathname.startsWith("/shorts/")) {
+        return parsedUrl.pathname.split("/")[2];
+      }
+
+      // Case 5: Live link (youtube.com/live/<id>)
+      if (parsedUrl.pathname.startsWith("/live/")) {
+        return parsedUrl.pathname.split("/")[2];
+      }
     }
 
-    return null; // not a valid YouTube URL
+    return null; // not a recognized YouTube URL
   } catch (err) {
     return null; // invalid URL format
   }
 }
 
-export function extractTweetId(url: string): any {
+export function extractTweetId(url: string): string | null {
   try {
     const parsedUrl = new URL(url);
     const segments = parsedUrl.pathname.split("/");
 
-    // Find "status" index and take the next segment
-    const statusIndex = segments.indexOf("status");
-    if (statusIndex !== -1 && segments[statusIndex + 1]) {
-      return segments[statusIndex + 1]; // tweet id
+    const statusIndex = segments.findIndex(segment => segment === "status");
+    const tweetId = segments[statusIndex + 1];
+
+    if (statusIndex !== -1 && tweetId && /^\d+$/.test(tweetId)) {
+      return tweetId;
     }
 
-    throw new Error("Tweet ID not found in URL");
+    return null; // not a valid tweet link
   } catch (err) {
-    throw new Error("Invalid URL");
+    return null; // invalid URL
   }
 }
 
