@@ -1,9 +1,8 @@
 import axios from 'axios';
 import DeleteIcon from '../icons/DeleteIcon';
 import DocumentIcon from '../icons/DocumentIcon';
-import ShareIcon from '../icons/ShareIcon';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Tweet } from 'react-tweet';
+import { Tweet } from "react-tweet";
 
 export interface ContentType {
   title: string;
@@ -12,9 +11,10 @@ export interface ContentType {
   tags: string[];
   id: string;
   timeStamp : string;
+  isDarkMode : boolean;
 }
 
-const ContentCard = ({ title, link, type, tags, id , timeStamp }: ContentType) => {
+const ContentCard = ({ title, link, type, tags, id , timeStamp, isDarkMode }: ContentType) => {
 
   const deleteHandler = async (id : string) => {
     const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/content`, {
@@ -57,10 +57,13 @@ const ContentCard = ({ title, link, type, tags, id , timeStamp }: ContentType) =
         title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe> : ""}
 
-      {type === "Tweet" ? <div className="w-full">
-        {/* <blockquote className="twitter-tweet"> <a href={`https://twitter.com/${link}`}></a></blockquote> */}
-        <Tweet id={link} />
-      </div> : ""}
+      {type === "Tweet" ? (
+  <div className={`w-full}`} data-theme={isDarkMode ? 'dark' : 'light'}>
+    <Tweet id={link} />
+  </div>
+) : (
+  ""
+)}
 
       {type === "Image" ? <img className='h-50' src={link} alt="" /> : ""}
       {type === "Link" ? <a className='text-blue-600 break-words break-all line-clamp-2 ' target="_blank" href={link}>{link}</a> : ""}

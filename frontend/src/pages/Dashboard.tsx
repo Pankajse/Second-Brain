@@ -7,12 +7,26 @@ import CreateContentModel from "../components/ui/CreateContentModel"
 import Sidebar from "../components/ui/Sidebar"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import useDarkMode from "../hooks/useDarkMode";
+import { Moon, Sun } from "lucide-react";
 
 function DashBoard() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
   const [createContentOpen, setCreateContentOpen] = useState(false);
   const [type, setType] = useState("All");
   const [shareBrainOpen, setShareBrainOpen] = useState(false);
+  const [isDarkMode, toggleDarkMode] = useDarkMode();
+
   const onShareBrain = async () => {
+    if (!token) {
+      setShareBrainOpen(true);
+      setTimeout(() => {
+        setShareBrainOpen(false);
+      }, 2000);
+      return;
+    }
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/brain/share`, {
       share: true
     }, {
@@ -26,7 +40,7 @@ function DashBoard() {
       setShareBrainOpen(true);
       setTimeout(() => {
         setShareBrainOpen(false);
-      }, 3000);
+      }, 2000);
     } else {
       throw new Error(response.data);
     }
@@ -54,21 +68,32 @@ function DashBoard() {
 
   return (
     <>
-      <div className="flex dark:bg-slate-900 dark:text-slate-100 py-3">
+      <div className="flex dark:bg-slate-900 dark:text-slate-100">
         <Sidebar setType={setType} />
         <div className="w-full ">
           <CreateContentModel isOpen={createContentOpen} setIsOpen={setCreateContentOpen} />
           <div className="flex flex-col 2sm:flex-row justify-between w-full items-center p-2  sm:p-5">
             <h4 className="text-xl sm:text-3xl font-semibold sm:font-bold">All Notes</h4>
             <div className="flex flex-row gap-5 justify-end relative rounded-lg p-4">
-              <Button variant="primary" size="fit" text="Add Content" startIcon={<PlusIcon />} onClick={() => { setCreateContentOpen(true) }} />
+              <Button variant="primary" size="fit" text="Add Content" startIcon={<PlusIcon />} onClick={() => {
+                if (!token) {
+                  navigate('/signup');
+                }
+                setCreateContentOpen(true);
+              }} />
               <Button variant="secondary" size="fit" text="Share Brain" startIcon={<ShareIcon />} onClick={onShareBrain} />
-              {shareBrainOpen && <div className=" p-2 absolute rounded-lg top-20 xs:top-15 text-green-500 bg-gray-200 text-sm  dark:bg-slate-700 dark:text-slate-200">Link Copied</div>}
+              {shareBrainOpen && <div className=" p-2 absolute rounded-lg top-20 xs:top-15 text-green-500 font-medium bg-gray-200 text-sm  dark:bg-slate-700 dark:text-slate-200">{token ? "Link Copied" : "Login First"}</div>}
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-full xs:bg-purple-600 text-white shadow-md"
+              >
+                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
             </div>
           </div>
-          <div className="flex justify-center px-2  ">
-            {data?.length === 0 ? <div className="text-2xl py-28 ">No Content Fount</div> : <div className=" column-1 sm:columns-2  xl:columns-3 gap-4">
-              {data?.filter((content: ContentType) => { if (type === "All") return true; else return content.type === type }).map((content: ContentType, i: number) => <ContentCard key={i} {...content} />)}
+          <div className="flex justify-center px-2  py-2">
+            {data?.length === 0 || !data ? <div className="text-2xl py-28 ">No Content Fount</div> : <div className=" column-1 sm:columns-2  xl:columns-3 gap-4">
+              {data?.filter((content: ContentType) => { if (type === "All") return true; else return content.type === type }).map((content: ContentType, i: number) => <ContentCard key={i} {...content} isDarkMode={isDarkMode} />)}
             </div>}
           </div>
         </div>

@@ -6,7 +6,7 @@ import useOnClickOutside from "../../hooks/useonClickOutside";
 import axios from "axios";
 import type { ContentType } from "./ContentCard";
 
-type PostContent = Omit<ContentType,'id' | 'timeStamp'>
+type PostContent = Omit<ContentType,'id' | 'timeStamp' | 'isDarkMode'>
 
 
 const CreateContentModel = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (arg: boolean) => void }) => {
@@ -33,6 +33,7 @@ const CreateContentModel = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen:
     });
 
     const postContent = async (content: PostContent) => {
+        
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/content`, content, {
             headers: {
 
@@ -79,13 +80,13 @@ const CreateContentModel = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen:
         <div className="">
             {isOpen && <div className='w-screen h-screen fixed top-0 left-0  flex justify-center items-center z-50'>
                 <div className="absolute  inset-0 bg-black opacity-70"></div>
-                <div ref={ref} className='relative rounded-xl p-2 xs:p-4 bg-white dark:bg-slate-800 dark:text-slate-100 flex flex-col gap-2 max-w-md min-w-xs sm:w-[90%]'>
+                <div ref={ref} className='relative rounded-xl p-2 xs:p-4 bg-white dark:bg-gray-900 dark:text-slate-100 flex flex-col gap-2 max-w-md min-w-xs sm:w-[90%]'>
                     <label htmlFor="title" className=''>Title</label>
-                    <input id='title' type="text" value={content.title} className='bg-slate-100 rounded-lg px-2 py-1' onChange={(e) => { setContent(prev => ({ ...prev, title: e.target.value })) }} />
+                    <input id='title' type="text" value={content.title} className='bg-slate-100 dark:bg-slate-700 rounded-lg px-2 py-1' onChange={(e) => { setContent(prev => ({ ...prev, title: e.target.value })) }} />
                     <label htmlFor="link" className=''>Enter Link</label>
-                    <input id='link' type="text" value={content.link} className='bg-slate-100 rounded-lg px-2 py-1' onChange={(e) => { setContent(prev => ({ ...prev, link: e.target.value })) }} />
+                    <input id='link' type="text" value={content.link} className='bg-slate-100 dark:bg-slate-700 rounded-lg px-2 py-1' onChange={(e) => { setContent(prev => ({ ...prev, link: e.target.value })) }} />
                     <label htmlFor="tags" className=''>Enter tags(separated by , )</label>
-                    <input id='tags' type="text" value={tagString} className='bg-slate-100 rounded-lg px-2 py-1' placeholder='politics , development'
+                    <input id='tags' type="text" value={tagString} className='bg-slate-100 dark:bg-slate-700 rounded-lg px-2 py-1' placeholder='politics , development'
                         onChange={(e) => {
                             setTagString(e.target.value);
                             const tagsArray = e.target.value.split(",");
@@ -93,7 +94,7 @@ const CreateContentModel = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen:
                         }} />
                     <label>Enter Type</label>
                     <div className="grid grid-cols-4 gap-3">
-                        {types.map((type, i) => (<div key={i} className={`px-2 py-1 rounded-xl  text-black w-fit ${content.type === type ? "bg-blue-200" : "bg-slate-100"} `}
+                        {types.map((type, i) => (<div key={i} className={`px-2 py-1 rounded-xl   w-fit ${content.type === type ? "bg-blue-200 text-black" : "bg-slate-100 dark:bg-slate-700 dark:text-slate-200"} `}
                             onClick={() => {
                                 setContent(prev => ({ ...prev, type: type }))
                             }}>

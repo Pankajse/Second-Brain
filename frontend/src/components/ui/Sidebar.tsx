@@ -8,6 +8,7 @@ import brain from "../../assets/purplebrain.png"
 import useMediaQuery from "../../hooks/useMediaQuery"
 import { useEffect, useState } from "react"
 import SideBarIcon from "../icons/SideBarIcon"
+import { useNavigate } from "react-router-dom"
 
 const Sidebar = ({setType} : {setType : (type : string) => void}) => {
     const sidebarElements = [
@@ -18,6 +19,7 @@ const Sidebar = ({setType} : {setType : (type : string) => void}) => {
       { text: "Links", logo: <LinksIcon /> , value : "Link" },
     ];
   
+    const navigate = useNavigate();
     const [openSidebar, setOpenSidebar] = useState(false);
     const isDesktop = useMediaQuery("(min-width : 1024px)");
   
@@ -37,8 +39,8 @@ const Sidebar = ({setType} : {setType : (type : string) => void}) => {
           `}
         >
           <div className="flex w-full justify-between pb-12 px-6 py-4">
-            <div className="flex gap-4 items-center">
-              <img src={brain} alt="" className="md:w-9 w-8" />
+            <div className="flex gap-4 items-center hover:cursor-pointer"  onClick={()=>{navigate('/')}}>
+              <img src={brain} alt="" className="md:w-9 w-8 " />
               <h4 className="text-xl md:text-2xl font-semibold">Second Brain</h4>
             </div>
             {/* Sidebar toggle button (always visible on mobile, inside sidebar on desktop too) */}
