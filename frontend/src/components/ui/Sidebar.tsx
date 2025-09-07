@@ -7,8 +7,8 @@ import SidebarElements from "./SidebarElements"
 import brain from "../../assets/purplebrain.png"
 import useMediaQuery from "../../hooks/useMediaQuery"
 import { useEffect, useState } from "react"
-import SideBarIcon from "../icons/SideBarIcon"
 import { useNavigate } from "react-router-dom"
+import TripleLine from "../icons/TripleLine"
 
 const Sidebar = ({setType} : {setType : (type : string) => void}) => {
     const sidebarElements = [
@@ -48,13 +48,13 @@ const Sidebar = ({setType} : {setType : (type : string) => void}) => {
               className="cursor-pointer lg:hidden"
               onClick={() => setOpenSidebar(!openSidebar)}
             >
-              <SideBarIcon />
+              <TripleLine />
             </div>
           </div>
   
           <div className="flex flex-col gap-4 items-center w-full">
             {sidebarElements.map((x, i) => (
-              <SidebarElements text={x.text} logo={x.logo} value={x.value} key={i} setType={setType} />
+              <SidebarElements text={x.text} logo={x.logo} value={x.value} key={i} setType={setType} setOpenSidebar={setOpenSidebar} />
             ))}
           </div>
         </div>
@@ -65,7 +65,7 @@ const Sidebar = ({setType} : {setType : (type : string) => void}) => {
             className="fixed top-4 left-4 z-50 cursor-pointer"
             onClick={() => setOpenSidebar(true)}
           >
-            <SideBarIcon />
+            <TripleLine />
           </div>
         )}
       </>

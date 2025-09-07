@@ -35,7 +35,7 @@ function DashBoard() {
       }
     });
     if (response.status === 200) {
-      const shareLink = `http://localhost:5173/shared/${response.data.link}`
+      const shareLink = `${window.location.origin}/shared/${response.data.link}`;
       await navigator.clipboard.writeText(shareLink);
       setShareBrainOpen(true);
       setTimeout(() => {
@@ -48,7 +48,7 @@ function DashBoard() {
   const fetchContent = async (): Promise<ContentType[]> => {
     const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/content`, {
       headers: {
-        Authorization: `$Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
     if (response.status === 200) {
@@ -72,7 +72,7 @@ function DashBoard() {
         <Sidebar setType={setType} />
         <div className="w-full ">
           <CreateContentModel isOpen={createContentOpen} setIsOpen={setCreateContentOpen} />
-          <div className="flex flex-col 2sm:flex-row justify-between w-full items-center p-2  sm:p-5">
+          <div className="flex flex-col 2sm:flex-row justify-between w-full items-center p-2 mt-2 sm:p-5">
             <h4 className="text-xl sm:text-3xl font-semibold sm:font-bold">All Notes</h4>
             <div className="flex flex-row gap-5 justify-end relative rounded-lg p-4">
               <Button variant="primary" size="fit" text="Add Content" startIcon={<PlusIcon />} onClick={() => {
@@ -92,7 +92,7 @@ function DashBoard() {
             </div>
           </div>
           <div className="flex justify-center px-2  py-2">
-            {data?.length === 0 || !data ? <div className="text-2xl py-28 ">No Content Fount</div> : <div className=" column-1 sm:columns-2  xl:columns-3 gap-4">
+            {data?.length === 0 || !data ? <div className="text-2xl py-28 ">No Content Fount</div> : <div className=" column-1 md:columns-2  xl:columns-3 gap-4">
               {data?.filter((content: ContentType) => { if (type === "All") return true; else return content.type === type }).map((content: ContentType, i: number) => <ContentCard key={i} {...content} isDarkMode={isDarkMode} />)}
             </div>}
           </div>
