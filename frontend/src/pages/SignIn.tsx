@@ -2,7 +2,7 @@ import brain from "../assets/purplebrain.png"
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import useDarkMode from "../hooks/useDarkMode";
 import { Moon, Sun } from "lucide-react";
