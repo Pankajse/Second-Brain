@@ -64,79 +64,6 @@ Here's a list of the major technologies used to build Second Brain:
 ## 📂 Project Structure
 
 The repository is organized into two main folders for a clean separation of concerns.
-
-Of course. I understand now. You want the raw Markdown code that will render a professional and detailed README, just like the example you provided.
-
-Here is the README.md for your "Second Brain" project, written in the requested format.
-
-Markdown
-
-# 🧠 Second Brain
-
-<p align="center">
-  <strong>Your personal hub for digital knowledge.</strong>
-</p>
-
-<p align="center">
-  <img alt="React" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/>
-  <img alt="TanStack Query" src="https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white"/>
-  <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
-  <img alt="Express.js" src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white"/>
-  <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white"/>
-  <img alt="TailwindCSS" src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"/>
-</p>
-
-A full-stack productivity app built with the **MERN stack + TypeScript**, designed to help users save and organize YouTube videos, tweets, images, and links in one central place. Second Brain combines a scalable backend, an optimized frontend, and a clean, responsive UI to improve digital knowledge management.
-
-🌐 **Live Website:** **[https://second-brain-five-sigma.vercel.app/](https://second-brain-five-sigma.vercel.app/)**
-
----
-
-## 📋 Table of Contents
-
-- [Key Features](#-key-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation & Setup](#installation--setup)
-- [Environment Variables](#-environment-variables)
-- [Author](#-author)
-- [Contributing](#-contributing)
-- [License](#-license)
-
----
-
-## ✨ Key Features
-
--   📂 **Save & Organize**: Effortlessly save and categorize YouTube videos, tweets, images, and links.
--   ⚡ **Optimized Performance**: 30% faster data fetching with TanStack React Query, reducing redundant API calls and improving user experience.
--   🌓 **Dark/Light Mode**: A sleek, user-toggleable theme for enhanced accessibility and personalized viewing.
--   📱 **Fully Responsive UI**: Built with Tailwind CSS for a seamless experience on any device, from mobile phones to desktops.
--   🗄️ **Scalable Backend**: Powered by Node.js, Express.js, and MongoDB to handle high traffic and ensure data integrity.
--   🔐 **Secure Authentication**: Robust user login and registration system using JWT for secure sessions and bcrypt for password hashing.
--   🧩 **Modular Architecture**: Built with TypeScript for enhanced maintainability, scalability, and robust type safety.
-
----
-
-## 🚀 Tech Stack
-
-Here's a list of the major technologies used to build Second Brain:
-
-| Category         | Technology                                                                          |
-| ---------------- | ----------------------------------------------------------------------------------- |
-| **Frontend** | React (Vite), TypeScript, TanStack React Query, TailwindCSS, Axios                  |
-| **Backend** | Node.js, Express.js                                                                 |
-| **Database** | MongoDB                                                                             |
-| **Authentication** | JSON Web Tokens (JWT), Bcrypt                                                       |
-| **Deployment** | [Vercel](https://vercel.com/)                                                       |
-
----
-
-## 📂 Project Structure
-
-The repository is organized into two main folders for a clean separation of concerns.
 Second-Brain/
 │
 ├── Backend/        # Express.js API Server
@@ -392,3 +319,4 @@ Contributions, issues, and feature requests are welcome! Feel free to fork this 
 
 📄 License
 This project is licensed under the MIT License.
+
