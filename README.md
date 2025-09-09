@@ -1,5 +1,4 @@
-🧠 Second Brain
-A full-stack productivity app built with MERN stack + TypeScript, designed to help users save and organize YouTube videos, tweets, images, and links in one central place. Second Brain combines a scalable backend, an optimized frontend, and a clean, responsive UI to improve digital knowledge management.
+#🧠 Second Brain
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100" />
@@ -16,6 +15,8 @@ A full-stack productivity app built with MERN stack + TypeScript, designed to he
 <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white"/>
 <img alt="TailwindCSS" src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"/>
 </p>
+
+A full-stack productivity app built with MERN stack + TypeScript, designed to help users save and organize YouTube videos, tweets, images, and links in one central place. Second Brain combines a scalable backend, an optimized frontend, and a clean, responsive UI to improve digital knowledge management.
 
 ✨ Features
 📂 Save & Organize: Effortlessly save and categorize YouTube videos, tweets, images, and links.
@@ -131,4 +132,5 @@ LinkedIn: https://www.linkedin.com/in/pankaj-singh-tech/
 ```bash
 git clone [https://github.com/yourusername/second-brain.git](https://github.com/yourusername/second-brain.git)
 cd second-brain
+
 
