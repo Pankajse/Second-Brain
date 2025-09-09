@@ -1,4 +1,5 @@
-# 🧠 Second Brain
+
+# <p align="center">🧠 Second Brain</p>
 
 <p align="center">
   <strong>Your personal hub for digital knowledge.</strong>
@@ -161,6 +162,7 @@ Contributions, issues, and feature requests are welcome! Feel free to fork this 
 
 📄 License
 This project is licensed under the MIT License.
+
 
 
 
