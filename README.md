@@ -64,6 +64,7 @@ Here's a list of the major technologies used to build Second Brain:
 ## 📂 Project Structure
 
 The repository is organized into two main folders for a clean separation of concerns.
+```
 Second-Brain/
 │
 ├── Backend/        # Express.js API Server
@@ -78,7 +79,7 @@ Second-Brain/
 │   ├── pages/
 │    ├── App.tsx
 └── main.tsx  # Entry point
-
+```
 ---
 
 ## 🛠️ Getting Started
@@ -160,5 +161,6 @@ Contributions, issues, and feature requests are welcome! Feel free to fork this 
 
 📄 License
 This project is licensed under the MIT License.
+
 
 
